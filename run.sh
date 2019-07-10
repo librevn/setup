@@ -14,15 +14,16 @@ CONTAINER_NAME="cloud9-ide"
 
 # if existed, kill, warning message may print if container had not yet start,
 # just ignore it
+echo "try to stop container if it is running"
 docker stop ${CONTAINER_NAME} > /dev/null
 
 # now we can start
 # there is an option where we want to test container, by input '/bin/bast' letting
 # us to access to container shell (instead of start cloud9 starting script)
 if [ -z "$1" ]; then
-	if [ ! -d ${SHARED_DIR}/work/cloud9 ]
+	if [ ! -d ${SHARED_DIR}/work/cloud9; then
 		echo "=== install cloud9, once it'd done, it will be possible to run as daemon"
-		docker run --rm -it ${VOLUME_OPT} ${PORT_OPT} --name ${CONTAINER_NAME} cloud9:latest /usr/local/bin/start-cloud9
+		docker run --rm -it ${VOLUME_OPT} ${PORT_OPT} --name ${CONTAINER_NAME} cloud9:latest
 	else
 		docker run --rm -d ${VOLUME_OPT} ${PORT_OPT} --name ${CONTAINER_NAME} cloud9:latest
 	fi
